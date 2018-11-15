@@ -5,7 +5,7 @@ from easydict import EasyDict as edict
 config = edict()
 
 config.TRAIN = edict()
-config.TRAIN.batch_size = 8
+config.TRAIN.batch_size = 2
 config.TRAIN.save_interval = 5000
 config.TRAIN.log_interval = 1
 # config.TRAIN.n_epoch = 80
@@ -30,7 +30,7 @@ if (config.MODEL.hin % 16 != 0) or (config.MODEL.win % 16 != 0):
 
 config.DATA = edict()
 config.DATA.train_data = 'coco'  # coco, custom, coco_and_custom
-config.DATA.coco_version = '2017'  # MSCOCO version 2014 or 2017
+config.DATA.coco_version = '2014'  # MSCOCO version 2014 or 2017
 config.DATA.data_path = 'data'
 config.DATA.your_images_path = os.path.join('data', 'your_data', 'images')
 config.DATA.your_annos_path = os.path.join('data', 'your_data', 'coco.json')

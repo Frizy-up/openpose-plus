@@ -151,8 +151,17 @@ def _data_aug_fn(image, ground_truth):
     h, w, _ = image.shape
     transform_matrix = tl.prepro.transform_matrix_offset_center(M_combined, x=w, y=h)
     image = tl.prepro.affine_transform_cv2(image, transform_matrix)
-    mask_miss = tl.prepro.affine_transform_cv2(mask_miss, transform_matrix, border_mode='replicate')
+
+    # Frizy add for debug
+    # from tensorlayer.prepro import affine_transform_cv2
+    # affine_transform_cv2(cv2.BORDER_REPLICATE)
+
+    mask_miss = tl.prepro.affine_transform_cv2(mask_miss, transform_matrix, borderMode=cv2.BORDER_REPLICATE)
     annos = tl.prepro.affine_transform_keypoints(annos, transform_matrix)
+    # Frizy add for debug
+    # from tensorlayer.prepro import affine_transform_keypoints
+    # affine_transform_keypoints()
+
 
     # random resize height and width together
     # image, annos, mask_miss = tl.prepro.keypoint_random_resize_shortestedge(
@@ -162,6 +171,9 @@ def _data_aug_fn(image, ground_truth):
 
     image, annos, mask_miss = tl.prepro.keypoint_random_flip(image, annos, mask_miss, prob=0.5)
     image, annos, mask_miss = tl.prepro.keypoint_resize_random_crop(image, annos, mask_miss, size=(hin, win)) # hao add
+    # Frizy add for debug
+    # from tensorlayer.prepro import keypoint_resize_random_crop
+    # keypoint_resize_random_crop()
 
     # generate result maps including keypoints heatmap, pafs and mask
     h, w, _ = np.shape(image)
