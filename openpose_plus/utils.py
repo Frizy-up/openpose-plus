@@ -455,7 +455,7 @@ def get_vectormap(annos, height, width):
     num_joints = 19
 
     limb = list(
-        zip([2, 9, 10, 2, 12, 13, 2, 3, 4, 3, 2, 6, 7, 6, 2, 1, 1, 15, 16],
+        zip([2,  9, 10,  2, 12, 13, 2, 3, 4,  3, 2, 6, 7,  6, 2,  1,  1, 15, 16],
             [9, 10, 11, 12, 13, 14, 3, 4, 5, 17, 6, 7, 8, 18, 1, 15, 16, 17, 18]))
 
     vectormap = np.zeros((num_joints * 2, height, width), dtype=np.float32)
@@ -590,7 +590,7 @@ def fast_vectormap(vectormap, countmap, i, v_start, v_end):
     return vectormap
 
 
-def draw_results(images, heats_ground, heats_result, pafs_ground, pafs_result, masks, name=''):
+def draw_results(images, heats_ground=None, heats_result=None, pafs_ground=None, pafs_result=None, masks=None, name='', index=0):
     """Save results for debugging.
 
     Parameters
@@ -696,10 +696,10 @@ def draw_results(images, heats_ground, heats_result, pafs_ground, pafs_result, m
         # plt.show()
 
         mkpath(config.LOG.vis_path)
-        plt.savefig(os.path.join(config.LOG.vis_path, '%s%d.png' % (name, i)), dpi=300)
+        plt.savefig(os.path.join(config.LOG.vis_path, '%s%d.png' % (name, index)), dpi=300)
 
 
-def vis_annos(image, annos, name=''):
+def vis_annos(image, annos, name='', index=0):
     """Save results for debugging.
 
     Parameters
@@ -718,7 +718,7 @@ def vis_annos(image, annos, name=''):
                 plt.plot(jo[0], jo[1], '*')
 
     mkpath(config.LOG.vis_path)
-    plt.savefig(os.path.join(config.LOG.vis_path, 'keypoints%s%d.png' % (name, i)), dpi=300)
+    plt.savefig(os.path.join(config.LOG.vis_path, 'keypoints%s%d.png' % (name, index)), dpi=300)
 
 
 def tf_repeat(tensor, repeats):

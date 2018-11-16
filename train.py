@@ -263,6 +263,14 @@ def single_train(training_dataset):
                 new_lr_decay = lr_decay_factor**(step // lr_decay_every_step)
                 sess.run(tf.assign(lr_v, lr_init * new_lr_decay))
 
+            # Frizy add for debug
+            # print(sess.run(one_element)[0].shape)
+            # print(sess.run(one_element)[0])
+            #
+            # print(sess.run(one_element)[1].shape)
+            # print(sess.run(one_element)[1])
+
+
             [_, _loss, _stage_losses, _l2, conf_result, paf_result] = \
                 sess.run([train_op, total_loss, stage_losses, l2_loss, last_conf, last_paf])
 
