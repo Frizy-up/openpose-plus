@@ -155,8 +155,9 @@ def _data_aug_fn(image, ground_truth):
     # Frizy add for debug
     # from tensorlayer.prepro import affine_transform_cv2
     # affine_transform_cv2(cv2.BORDER_REPLICATE)
+    # cv2.warpAffine(cv2.BORDER_REPLICATE)
 
-    mask_miss = tl.prepro.affine_transform_cv2(mask_miss, transform_matrix, borderMode=cv2.BORDER_REPLICATE)
+    mask_miss = tl.prepro.affine_transform_cv2(mask_miss, transform_matrix, border_mode='replicate')
     annos = tl.prepro.affine_transform_keypoints(annos, transform_matrix)
     # Frizy add for debug
     # from tensorlayer.prepro import affine_transform_keypoints

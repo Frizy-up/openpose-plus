@@ -5,9 +5,9 @@ from easydict import EasyDict as edict
 config = edict()
 
 config.TRAIN = edict()
-config.TRAIN.batch_size = 2
+config.TRAIN.batch_size = 8
 config.TRAIN.save_interval = 5000
-config.TRAIN.log_interval = 1
+config.TRAIN.log_interval = 10
 # config.TRAIN.n_epoch = 80
 config.TRAIN.n_step = 600000  # total number of step
 config.TRAIN.lr_init = 4e-5  # initial learning rate
