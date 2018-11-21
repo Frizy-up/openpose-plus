@@ -2,7 +2,7 @@ cython
 numpy
 easydict
 opencv-python
-tensorflow
+tensorflow-gpu==1.8.0
 tensorlayer>=1.11.0
 nltk # required by tensorlayer
 # pycocotools  # must be installed after cython and numpy are installed

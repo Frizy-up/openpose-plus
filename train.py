@@ -29,8 +29,8 @@ tl.logging.set_verbosity(tl.logging.DEBUG)
 tl.files.exists_or_mkdir(config.LOG.vis_path, verbose=False)  # to save visualization results
 tl.files.exists_or_mkdir(config.MODEL.model_path, verbose=False)  # to save model files
 
-# os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
 
 # FIXME: Don't use global variables.
 # define hyper-parameters for training
@@ -156,7 +156,7 @@ def _data_aug_fn(image, ground_truth):
     # from tensorlayer.prepro import affine_transform_cv2
     # affine_transform_cv2(cv2.BORDER_REPLICATE)
 
-    mask_miss = tl.prepro.affine_transform_cv2(mask_miss, transform_matrix, borderMode=cv2.BORDER_REPLICATE)
+    mask_miss = tl.prepro.affine_transform_cv2(mask_miss, transform_matrix, border_mode='replicate')
     annos = tl.prepro.affine_transform_keypoints(annos, transform_matrix)
     # Frizy add for debug
     # from tensorlayer.prepro import affine_transform_keypoints
@@ -219,7 +219,7 @@ def single_train(training_dataset):
     ds = ds.repeat(n_epoch)
     ds = ds.map(_map_fn, num_parallel_calls=multiprocessing.cpu_count() // 2)  # decouple the heavy map_fn
     ds = ds.batch(batch_size)  # TODO: consider using tf.contrib.map_and_batch
-    ds = ds.prefetch(2)
+    ds = ds.prefetch(4)
     iterator = ds.make_one_shot_iterator()
     one_element = iterator.get_next()
     net, total_loss, log_tensors = make_model(*one_element, is_train=True, reuse=False)
@@ -320,6 +320,10 @@ def parallel_train(training_dataset):
     import horovod.tensorflow as hvd
 
     hvd.init()  # Horovod
+    ########## Frizy add for debug #################
+    print("hvd.size(): ",hvd.size())
+    print("hvd.rank(): ",hvd.rank())
+    ################################################
 
     ds = training_dataset.shuffle(buffer_size=4096)
     ds = ds.shard(num_shards=hvd.size(), index=hvd.rank())

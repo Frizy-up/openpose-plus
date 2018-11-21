@@ -20,7 +20,7 @@ tl.logging.set_verbosity(tl.logging.INFO)
 
 def inference(base_model_name, path_to_npz, data_format, input_files, plot):
     model_func = get_model(base_model_name)
-    height, width = (368, 432)
+    height, width = (368, 368)
     e = measure(lambda: TfPoseEstimator(path_to_npz, model_func, target_size=(width, height), data_format=data_format),
                 'create TfPoseEstimator')
 
@@ -43,11 +43,11 @@ def inference(base_model_name, path_to_npz, data_format, input_files, plot):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='inference')
-    parser.add_argument('--path-to-npz', type=str, default='', help='path to npz', required=True)
-    parser.add_argument('--images', type=str, default='', help='comma separate list of image filenames', required=True)
+    parser.add_argument('--path-to-npz', type=str, default='../models/pose.npz', help='path to npz', required=False)
+    parser.add_argument('--images', type=str, default='../data/mscoco2014/train2014/COCO_train2014_000000000839.jpg', help='comma separate list of image filenames', required=False)
     parser.add_argument('--base-model', type=str, default='vgg', help='vgg | vggtiny | mobilenet')
     parser.add_argument('--data-format', type=str, default='channels_last', help='channels_last | channels_first.')
-    parser.add_argument('--plot', type=bool, default=False, help='draw the results')
+    parser.add_argument('--plot', type=bool, default=True, help='draw the results')
     parser.add_argument('--repeat', type=int, default=1, help='repeat the images for n times for profiling.')
     parser.add_argument('--limit', type=int, default=100, help='max number of images.')
 
